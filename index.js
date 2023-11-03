@@ -33,9 +33,16 @@ async function run() {
     const productCollection = client.db('emaJohnDB').collection('products');
 
     app.get('/products', async (req, res) => {
+      console.log('Pagination Query', req.query);
       const cursor = productCollection.find();
       const result = await cursor.toArray();
       res.send(result);
+    })
+
+
+    app.get('/productsCount', async (req, res) => {
+      const count = await productCollection.estimatedDocumentCount();
+      res.send({ count });
     })
 
     // Send a ping to confirm a successful connection
